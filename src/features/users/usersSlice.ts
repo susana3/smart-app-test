@@ -26,16 +26,13 @@ const initialState: UsersState = {
 export const fetchUsersAsync = createAsyncThunk<User[], UsersState['filters'], { rejectValue: string; }>(
   'users/fetchUsers',
   async (filters, { rejectWithValue }) => {
-    console.log('Filters:', filters);
     try {
-      // Update the filters object to use '_like' suffix for all keys
       const params: { [key: string]: string } = Object.keys(filters).reduce((acc, key) => {
         acc[`${key}_like`] = filters[key as keyof typeof filters];
         return acc;
       }, {} as { [key: string]: string });
 
       const response = await axios.get<User[]>(API_URL, { params });
-      console.log('Response data:', response.data);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
