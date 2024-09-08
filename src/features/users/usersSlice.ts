@@ -1,14 +1,8 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import {API_URL} from "../../constants";
+import {User} from "../../types/types";
 
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-}
 
 interface UsersState {
   users: User[];
