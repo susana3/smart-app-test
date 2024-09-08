@@ -22,4 +22,11 @@ export interface User {
   };
 }
 
-export type UserTableData = Pick<User, 'name' | 'username' | 'email' | 'phone'>;
+export interface FiltersState {
+  name: string;
+  username: string;
+  email: string;
+  phone: string;
+}
+
+

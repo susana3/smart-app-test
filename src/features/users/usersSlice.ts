@@ -1,32 +1,48 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 import {API_URL} from "../../constants";
-import {User} from "../../types/types";
+import {FiltersState, User} from "../../types/types";
 
 
 interface UsersState {
   users: User[];
   loading: boolean;
   error: string | null;
+  filters: FiltersState
 }
 
 const initialState: UsersState = {
   users: [],
   loading: false,
   error: null,
+  filters: {
+    name: '',
+    username: '',
+    email: '',
+    phone: ''
+  }
 };
 
-export const fetchUsersAsync = createAsyncThunk<User[], void, {
-  rejectValue: string;
-}>('users/fetchUsers', async () => {
-  try {
-    const response = await axios.get<User[]>(API_URL);
-    console.log(response.data);
-    return response.data;
-  } catch (error: any) {
-    throw error.message;
+
+export const fetchUsersAsync = createAsyncThunk<User[], UsersState['filters'], { rejectValue: string; }>(
+  'users/fetchUsers',
+  async (filters, { rejectWithValue }) => {
+    console.log('Filters:', filters);
+    try {
+      // Update the filters object to use '_like' suffix for all keys
+      const params: { [key: string]: string } = Object.keys(filters).reduce((acc, key) => {
+        acc[`${key}_like`] = filters[key as keyof typeof filters];
+        return acc;
+      }, {} as { [key: string]: string });
+
+      const response = await axios.get<User[]>(API_URL, { params });
+      console.log('Response data:', response.data);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
 
 const usersSlice = createSlice({

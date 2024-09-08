@@ -1,11 +1,20 @@
-import React from 'react';
-import {User} from "../types/types";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../store/store";
+import {fetchUsersAsync} from "../features/users/usersSlice";
 
-interface UserListProps {
-  users: User[];
-}
 
-const UserList: React.FC<UserListProps> = ({ users }) => {
+interface UserListProps {}
+
+const UserList: React.FC<UserListProps> = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const users = useSelector((state: RootState) => state.users);
+  const filters = useSelector((state: RootState) => state.filters);
+
+  useEffect(() => {
+    dispatch(fetchUsersAsync(filters));
+  }, [dispatch, filters]);
+
   return (
     <table>
       <thead>
@@ -17,7 +26,7 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
       </tr>
       </thead>
       <tbody>
-      {users.map((user) => (
+      {users.users.map((user) => (
         <tr key={user.id}>
           <td>{user.name}</td>
           <td>{user.username}</td>
