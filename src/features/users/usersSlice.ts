@@ -23,7 +23,6 @@ const initialState: UsersState = {
   }
 };
 
-
 export const fetchUsersAsync = createAsyncThunk<User[], UsersState['filters'], { rejectValue: string; }>(
   'users/fetchUsers',
   async (filters, { rejectWithValue }) => {
@@ -43,7 +42,6 @@ export const fetchUsersAsync = createAsyncThunk<User[], UsersState['filters'], {
     }
   }
 );
-
 
 const usersSlice = createSlice({
   name: 'users',
