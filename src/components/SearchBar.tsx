@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { updateFilters } from '../features/filters/filtersSlice';
+import './SearchBar.css';
 
 interface SearchBarProps {}
 
@@ -34,7 +35,7 @@ const SearchBar: React.FC<SearchBarProps> = () => {
   };
 
   return (
-    <div>
+    <div className='search-bar'>
       <input
         type="search"
         name="name"
