@@ -26,4 +26,4 @@ The use of TypeScript ensures type safety and code maintainability, achieving:
 
 **_Deployment_**
 
-The app is deployed using GitHub Pages, making it easy to share and access the live app.
+The app is deployed using Netlify, making it easy to share and access the live app.
